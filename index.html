@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Muhammad Iqbal Sugiharto — Renewable Energy Enthusiast, Illustrator, Fun Runner, and Creative Freelancer.">
 <title>Muhammad Iqbal Sugiharto — Portfolio</title>
+<script>document.documentElement.classList.add("js")</script>
 <style>
   :root{
     --bg:#f7f8fa;
@@ -102,7 +103,7 @@
     padding:9px 14px;font-weight:800;font-size:12px;margin-top:13px
   }
   .wide{grid-column:1/-1}
-  .story-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .story-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
   .story{
     background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:16px;
     min-height:132px;display:flex;flex-direction:column;justify-content:space-between;transition:.2s
@@ -168,10 +169,99 @@
   .expand:hover{color:var(--text);border-color:#cfd5de}.expand svg{transition:transform .2s}.expand[aria-expanded="true"] svg{transform:rotate(180deg)}
   .job .logo.wide{object-fit:contain;background:#fff}
   .eng,.content{min-width:0;max-width:100%}.eng{overflow:hidden}.job{min-width:0}
+
+  /* ===== LAYOUT: Stories (kiri) + Photography (kanan) ===== */
+  .section-card{display:flex;flex-direction:column}
+  .section-card .resource{margin-bottom:14px}
+  .section-card .pill{align-self:flex-start;margin-top:auto}
+  .section-card .story-grid{flex:1}
+
+  /* ===== MOTION ===== */
+  :root{--ease:cubic-bezier(.2,.7,.2,1)}
+  body{overflow-x:hidden}
+  .page{position:relative;z-index:1}
+
+  /* background orbs */
+  body::before,body::after{content:"";position:fixed;z-index:0;border-radius:50%;filter:blur(70px);pointer-events:none;opacity:.55}
+  body::before{width:420px;height:420px;left:-120px;top:8vh;background:radial-gradient(circle,#bfe6fb,transparent 68%);animation:orb1 18s ease-in-out infinite}
+  body::after{width:460px;height:460px;right:-140px;bottom:4vh;background:radial-gradient(circle,#ffd3b8,transparent 68%);animation:orb2 22s ease-in-out infinite}
+  @keyframes orb1{0%,100%{transform:translate(0,0)}50%{transform:translate(120px,160px)}}
+  @keyframes orb2{0%,100%{transform:translate(0,0)}50%{transform:translate(-140px,-120px)}}
+
+  /* scroll progress */
+  #bar{position:fixed;left:0;top:0;height:3px;width:100%;z-index:50;transform-origin:0 50%;transform:scaleX(0);
+    background:linear-gradient(90deg,#55b7ed,#f11b82,#ff9d63)}
+
+  /* scroll reveal (animation, so hover transforms still work afterwards) */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(34px) scale(.97)}to{opacity:1;transform:none}}
+  .js .rv{opacity:0}
+  .js .rv.in{opacity:1;animation:fadeUp .85s var(--ease) var(--d,0ms) backwards}
+
+  /* animated gradients + floating glow on big cards */
+  @keyframes gradShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  @keyframes floaty{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-30px,40px) scale(1.15)}}
+  .peach{background:linear-gradient(120deg,#ffdda5,#ff8f8f,#ffb38a,#ffdda5);background-size:300% 300%}
+  .dark{background:linear-gradient(120deg,#183e68,#091d35,#1f5a96,#183e68);background-size:300% 300%}
+  .section-card{animation:gradShift 14s ease infinite}
+  .js .section-card.rv.in{animation:fadeUp .85s var(--ease) var(--d,0ms) backwards,gradShift 14s ease infinite}
+  .section-card::before{content:"";position:absolute;width:280px;height:280px;right:-90px;top:-110px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,255,255,.24),transparent 66%);animation:floaty 9s ease-in-out infinite;pointer-events:none}
+  .section-card h3{position:relative}
+
+  /* cursor spotlight */
+  .glow{position:relative;overflow:hidden}
+  .glow::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;
+    background:radial-gradient(220px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.30),transparent 62%)}
+  .glow:hover::after{opacity:1}
+  .twitter.glow::after,.github.glow::after,.medium.glow::after,.strava.glow::after,.behance.glow::after,.rate-box.glow::after{
+    background:radial-gradient(220px circle at var(--mx,50%) var(--my,50%),rgba(85,183,237,.16),transparent 62%)}
+  .social-card,.story,.rate-box{will-change:transform}
+  .rate-box{transition:box-shadow .25s,border-color .25s}
+  .rate-box:hover{border-color:#cfe6f3;box-shadow:0 12px 28px rgba(77,166,214,.14)}
+
+  /* arrows, play buttons, pills */
+  .arrow{transition:transform .25s var(--ease),background .25s}
+  .social-card:hover .arrow{transform:translate(3px,-3px);background:#fff}
+  .resource .go{transition:transform .3s var(--ease),background .3s}
+  .resource:hover .go{transform:rotate(45deg) scale(1.1);background:#dfe8f1}
+  @keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(255,255,255,.55)}70%{box-shadow:0 0 0 14px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+  .story .play{animation:pulseRing 2.6s ease-out infinite;transition:transform .3s var(--ease)}
+  .story:nth-child(2) .play{animation-delay:.5s}.story:nth-child(3) .play{animation-delay:1s}.story:nth-child(4) .play{animation-delay:1.5s}
+  .story:hover .play{transform:scale(1.18);animation-play-state:paused}
+  .pill,.cta,.portfolio-top{position:relative;overflow:hidden}
+  .pill::after,.cta::after,.portfolio-top::after{content:"";position:absolute;top:0;left:-70%;width:50%;height:100%;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);transition:left .6s var(--ease)}
+  .pill:hover::after,.cta:hover::after,.portfolio-top:hover::after{left:130%}
+  .pill{transition:transform .25s var(--ease),box-shadow .25s}
+  .pill:hover,.cta:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(27,35,50,.18)}
+  .cta{transition:transform .25s var(--ease),box-shadow .25s}
+
+  /* avatar + header */
+  @keyframes ring{0%{box-shadow:0 0 0 0 rgba(241,27,130,.40)}70%{box-shadow:0 0 0 14px rgba(241,27,130,0)}100%{box-shadow:0 0 0 0 rgba(241,27,130,0)}}
+  .avatar{animation:ring 3.2s ease-out infinite}
+  .mini{transition:transform .25s var(--ease),background .2s}
+  .mini:hover{transform:translateY(-4px) scale(1.1)}
+
+  /* experience */
+  .job{transition:background .3s}
+  .job-photos img{transition:transform .4s var(--ease)}
+  .job-photos a:hover img{transform:scale(1.14)}
+  .job-photos a{transition:transform .25s var(--ease),box-shadow .25s}
+  .job-photos a:hover{transform:translateY(-2px);box-shadow:0 8px 16px rgba(27,35,50,.14)}
+  .job .logo{transition:transform .35s var(--ease)}
+  .job:hover .logo{transform:scale(1.08) rotate(-3deg)}
+  .job-more:not([hidden]){animation:fadeUp .5s var(--ease) backwards}
+
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .js .rv{opacity:1!important}
+    html{scroll-behavior:auto}
+  }
 </style>
 </head>
 <body>
 
+<div id="bar"></div>
 <div class="page">
   <header>
     <div class="identity">
@@ -247,7 +337,7 @@
           <a class="pill" href="https://1drv.ms/p/c/0d4a9ae6f185b67f/IQCaXKfnqB3JQZNl0FPfyB4BAdM4F9m5qSCVlb-yzuiuvec?e=U1ObU8" target="_blank" rel="noopener">View Portfolio ↗</a>
         </section>
 
-        <section class="section-card dark wide">
+        <section class="section-card dark">
           <h3>Renewable Energy Stories</h3>
           <div class="story-grid">
             <a class="story" href="https://youtu.be/ZU2zHAxDw2I?si=W16UmmmfSUaHTZqe" target="_blank" rel="noopener">
@@ -265,7 +355,7 @@
           </div>
         </section>
 
-        <section class="section-card peach wide">
+        <section class="section-card peach">
           <h3>Photography, Motion & Video</h3>
           <div class="resource">
             <div class="meta"><strong>Photography / Motion / Video Portfolio</strong><span>Google Drive collection</span></div>
@@ -387,6 +477,55 @@
 document.querySelectorAll('.expand').forEach(function(b){b.addEventListener('click',function(){
   var m=b.parentNode.querySelector('.job-more'),o=b.getAttribute('aria-expanded')==='true';
   m.hidden=o;b.setAttribute('aria-expanded',String(!o));b.querySelector('.lbl').textContent=o?'Show more':'Show less';});});
+</script>
+<script>
+(function(){
+  var rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hover=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  /* 1. scroll reveal (staggered per row) */
+  var groups=['.identity','.social-mini','.social-card','.section-card','.story','.eng','.eng-head','.job','.rates','.rate-box','footer'];
+  var els=[];
+  groups.forEach(function(sel){
+    document.querySelectorAll(sel).forEach(function(el,i){
+      var idx=Array.prototype.indexOf.call(el.parentNode.children,el);
+      el.classList.add('rv');
+      el.style.setProperty('--d',Math.min(idx%4,3)*90+'ms');
+      els.push(el);
+    });
+  });
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+    },{threshold:.12,rootMargin:'0px 0px -5% 0px'});
+    els.forEach(function(el){io.observe(el);});
+  }else{els.forEach(function(el){el.classList.add('in');});}
+
+  /* 2. spotlight + 3D tilt */
+  document.querySelectorAll('.social-card,.story,.rate-box,.section-card').forEach(function(el){el.classList.add('glow');});
+  if(hover&&!rm){
+    document.querySelectorAll('.social-card,.story,.rate-box').forEach(function(el){
+      el.addEventListener('pointermove',function(e){
+        var r=el.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+        el.style.setProperty('--mx',x+'px');el.style.setProperty('--my',y+'px');
+        var rx=((y/r.height)-.5)*-9,ry=((x/r.width)-.5)*9;
+        el.style.transform='perspective(700px) rotateX('+rx.toFixed(2)+'deg) rotateY('+ry.toFixed(2)+'deg) translateY(-4px)';
+      });
+      el.addEventListener('pointerleave',function(){el.style.transform='';});
+    });
+    document.querySelectorAll('.section-card').forEach(function(el){
+      el.addEventListener('pointermove',function(e){
+        var r=el.getBoundingClientRect();
+        el.style.setProperty('--mx',(e.clientX-r.left)+'px');el.style.setProperty('--my',(e.clientY-r.top)+'px');
+      });
+    });
+  }
+
+  /* 3. scroll progress bar */
+  var bar=document.getElementById('bar'),tick=false;
+  function upd(){var h=document.documentElement.scrollHeight-innerHeight;bar.style.transform='scaleX('+(h>0?scrollY/h:0)+')';tick=false;}
+  addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd);}},{passive:true});upd();
+})();
 </script>
 </body>
 </html>
